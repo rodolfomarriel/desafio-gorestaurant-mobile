@@ -4,7 +4,7 @@ Com o repositório baixado na sua máquina, execute o comando yarn na pasta do p
 <img alt="GoStack" src="https://storage.googleapis.com/golden-wind/bootcamp-gostack/header-desafios.png" />
 
 <h3 align="center">
-  Desafio 11: GoRestaurant Mobile
+  GoRestaurant Mobile
 </h3>
 
 <blockquote align="center">“Nada no mundo supera a persistência.”!</blockquote>
