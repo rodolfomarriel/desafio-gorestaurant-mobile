@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Image } from 'react-native';
 
 import api from '../../services/api';
@@ -32,11 +32,33 @@ const Orders: React.FC = () => {
 
   useEffect(() => {
     async function loadOrders(): Promise<void> {
-      // Load orders from API
+      const response = await api.get('/orders');
+
+      const orderList = response.data;
+
+      const ordersToList = orderList.map((order: { price: number }) => {
+        return {
+          ...order,
+          formattedValue: formatValue(order.price),
+        };
+      });
+
+      setOrders(ordersToList);
     }
 
     loadOrders();
   }, []);
+
+  const handleDeleteOrder = useCallback(
+    async (order_id: number) => {
+      await api.delete(`orders/${order_id}`);
+
+      const deletedOrder = orders.filter(order => order.id !== order_id);
+
+      setOrders(deletedOrder);
+    },
+    [orders],
+  );
 
   return (
     <Container>
@@ -59,7 +81,7 @@ const Orders: React.FC = () => {
               <FoodContent>
                 <FoodTitle>{item.name}</FoodTitle>
                 <FoodDescription>{item.description}</FoodDescription>
-                <FoodPricing>{item.formattedPrice}</FoodPricing>
+                <FoodPricing>{item.formattedValue}</FoodPricing>
               </FoodContent>
             </Food>
           )}
